@@ -1,0 +1,23 @@
+beef-roast.png
+cakes-combo.png
+chappathi-chicken.png
+chappathi.png
+chicken biriyani.png
+Chicken-curry.png
+coffee.png
+directory_contents.txt
+dosa.png
+egg-roast.png
+filename.bat
+ghee-roast.png
+gopimanjurian.png
+idile.png
+kadala-curry.png
+masalaDosa.png
+meals.png
+palappam.png
+porotta-beef.png
+porotta.png
+putt-kadala.png
+putt.png
+samoosa.png
