@@ -1,0 +1,58 @@
+from django.contrib.auth.models import User
+from common.models import Customer, Order, Item, OrderItem
+import random
+from datetime import datetime
+from django.utils import timezone  # Import timezone utility
+from OrderData import *
+
+# Ensure users and customers exist
+customers = []
+for username in user_data.keys():
+    try:
+        user = User.objects.get(username=username)
+        customer = Customer.objects.get(user=user)
+        customers.append(customer)
+    except User.DoesNotExist:
+        raise ValueError(f"User with username '{username}' does not exist.")
+    except Customer.DoesNotExist:
+        raise ValueError(f"Customer associated with user '{username}' does not exist.")
+
+# List of possible payment statuses
+payment_statuses = ['paid', 'pending']
+
+# Create orders for each customer with corresponding items
+for customer in customers:
+    # Get the list of orders for the current customer
+    customer_orders = user_data[customer.user.username]
+    
+    for order_data in customer_orders:
+        associated_item_ids = order_data['items']
+        
+        # Parse the custom order date and time or use the current date and time if not provided
+        custom_date_str = order_data.get('order_date')
+        custom_date_naive = datetime.strptime(custom_date_str, '%Y-%m-%d %H:%M:%S') if custom_date_str else datetime.now()
+
+        # Convert the naive datetime to a timezone-aware datetime
+        custom_date = timezone.make_aware(custom_date_naive, timezone.get_current_timezone())
+
+        # Create a new order for the customer with the custom date
+        order = Order.objects.create(
+            customer=customer,
+            payment_status=random.choice(payment_statuses),
+            ordered_at=custom_date  # Assuming 'ordered_at' field exists in the Order model as a DateTimeField
+        )
+
+        # Fetch the items based on the item IDs
+        items = Item.objects.filter(item_id__in=associated_item_ids)  # assuming 'item_id' is the primary key
+
+        # Create an OrderItem for each item associated with the order
+        for item in items:
+            OrderItem.objects.create(
+                order=order,
+                item=item,
+                quantity=1  # Set quantity to 1 or use any logic to determine quantity
+            )
+
+        print(f"Created order for customer: {customer.name} with items: {[item.item_name for item in items]} on {custom_date}")
+
+print(f"Orders for all customers have been added to the database.")
