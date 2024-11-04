@@ -1,7 +1,7 @@
 # Guide: Initialization Of SmartCanteen Database
 
 <!-- Enable Markdown Preview For Better Interface -->
-<!-- Shortcut: Ctrl+K Then V-->
+<!-- VSCode Shortcut: Ctrl+K Then V -->
 
 ## Step 1: Flush previous data if exists
 Execute: `python manage.py flush`
@@ -9,14 +9,16 @@ Execute: `python manage.py flush`
 ## Step 2: Open shell
 Execute: `python manage.py shell -i ipython`
 
-## Step 3: Add item images (One Time Operation)
-+ Remove existing item_image(s) from `media/items` 
-+ Add updated item_images to `media/items`
-+ Url: [item_images]('https://github.com/alanandrewvarghese/smart_canteen_raw/tree/main/item_images')
+[ Note ] If ipython is not installed, execute: `pip install ipython` 
 
-## Step 4: Execute initialization code
+## Step 3: Add item images (One Time Operation)
++ Remove existing item images from `media/items` if any exists
++ Add updated item images to `media/items`
++ Image Repository: [Item Images]('https://github.com/alanandrewvarghese/smart_canteen_raw/tree/main/item_images')
+
+## Step 4: Execute User, Item initialization code
 Run the Following code in shell.
-```
+``` python
 import random
 from django.contrib.auth.models import User
 from common.models import Customer, Item, Staff
@@ -119,7 +121,7 @@ create_items(item_details)
 ## Step 5: Execute Order Data Initialization Code
 
 Run the following code in shell
-```
+``` python
 from django.contrib.auth.models import User
 from common.models import Customer, Order, Item, OrderItem
 import random
