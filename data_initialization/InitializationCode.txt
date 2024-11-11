@@ -10,8 +10,8 @@ def create_staff(username, password, name, phone, email):
 def create_customers(customer_data):
     for username, name, email in customer_data:
         user = User.objects.create_user(username=username, password='Pass!123')
-        has_khatta = random.choice([True, False])
-        customer = Customer.objects.create(user=user, name=name, email=email, has_khatta=has_khatta)
+        is_active = True
+        customer = Customer.objects.create(user=user, name=name, email=email, is_active=is_active)
         print(customer)
 
 def add_item(item_name, price, category, food_type, image_name, quantity):
